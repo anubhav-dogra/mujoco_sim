@@ -1,0 +1,14 @@
+<mujoco model="platform_and_box">
+    <worldbody>
+        <!-- Fixed platform -->
+        <body name="platform" pos="1 0 0.5">
+            <geom name="platform_geom" type="box" size="0.7 0.7 0.05" rgba="0.7 0.7 0.7 1" contype="1" conaffinity="1"/>
+        </body>
+
+        <!-- Free box -->
+        <body name="free_box" pos="0.5 -0.25 0.6">
+            <geom name="box_geom" type="box" size="0.075 0.075 0.075" rgba="1 0 0 1"/>
+            <joint name="free_joint" type="free"/>
+        </body>
+    </worldbody>
+</mujoco>

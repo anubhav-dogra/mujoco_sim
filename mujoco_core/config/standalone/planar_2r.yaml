@@ -1,0 +1,8 @@
+xml_location: ../../../mujoco_models/models/planar_2r.xml
+control_mode: position
+simulation_frequency: 1000
+enable_gravity_compensation: false
+visualization_enabled: true
+joint_damping_gain: 0.0
+tracked_frame_names:
+  - end_effector_site
