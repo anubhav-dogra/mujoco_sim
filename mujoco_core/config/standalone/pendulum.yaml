@@ -1,5 +1,5 @@
 xml_location: ../../../mujoco_models/models/pendulum/pendulum.xml
-control_mode: position
+control_mode: torque
 simulation_frequency: 1000
 enable_gravity_compensation: false
 visualization_enabled: true
