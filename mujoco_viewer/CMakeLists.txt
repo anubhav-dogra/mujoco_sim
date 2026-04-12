@@ -72,10 +72,14 @@ ament_target_dependencies(mujoco_sim_viewer
 )
 
 install(
-  TARGETS mujoco_viewer mujoco_sim_viewer
+  TARGETS mujoco_viewer
   EXPORT export_mujoco_viewer
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
+)
+
+install(
+  TARGETS mujoco_sim_viewer
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 

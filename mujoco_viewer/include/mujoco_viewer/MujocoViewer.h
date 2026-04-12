@@ -31,6 +31,7 @@ class MujocoViewer {
 
     void initialize(mjModel &model, bool large_hud, std::atomic<bool> *paused, std::atomic<bool> *reset_requested);
     bool is_initialized() const;
+    bool should_close() const;
     void initialize_control_panel(ControlMode mode, ControlCommandCallback callback, bool visible = true);
 
     void set_camera_properties(const std::array<double, 3> &focal_point, double distance, double azimuth,

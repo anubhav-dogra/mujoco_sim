@@ -68,6 +68,8 @@ void MujocoViewer::initialize(mjModel &model, bool large_hud, std::atomic<bool> 
 
 bool MujocoViewer::is_initialized() const { return _window != nullptr; }
 
+bool MujocoViewer::should_close() const { return _window && glfwWindowShouldClose(_window); }
+
 void MujocoViewer::initialize_control_panel(ControlMode mode, ControlCommandCallback callback, bool visible) {
     _control_mode = mode;
     _control_callback = std::move(callback);
