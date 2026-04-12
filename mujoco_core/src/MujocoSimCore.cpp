@@ -63,6 +63,7 @@ void MujocoSimCore::initialize_control_state() {
 
 void MujocoSimCore::initialize_joint_mappings() {
     _joint_names.clear();
+    _joint_state_indices_by_name.clear();
     _joint_position_indices.clear();
     _joint_velocity_indices.clear();
     _joint_effort_indices.clear();
@@ -74,6 +75,7 @@ void MujocoSimCore::initialize_joint_mappings() {
             continue;
         }
         _joint_names.emplace_back(joint_name);
+        _joint_state_indices_by_name.emplace(_joint_names.back(), _joint_names.size() - 1);
         _joint_position_indices.emplace_back(_mj_model->jnt_qposadr[i]);
         _joint_velocity_indices.emplace_back(_mj_model->jnt_dofadr[i]);
     }
@@ -221,6 +223,10 @@ void MujocoSimCore::set_effort_command(std::size_t actuator_id, double value) {
 }
 
 const std::vector<std::string>& MujocoSimCore::joint_names() const { return _joint_names; }
+
+const std::unordered_map<std::string, std::size_t>& MujocoSimCore::joint_state_indices_by_name() const {
+    return _joint_state_indices_by_name;
+}
 
 const std::vector<std::size_t>& MujocoSimCore::joint_position_indices() const { return _joint_position_indices; }
 

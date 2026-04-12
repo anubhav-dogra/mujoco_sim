@@ -144,6 +144,12 @@ class MujocoSimCore {
     const std::vector<std::string>& joint_names() const;
 
     /**
+     * @brief Get the exported joint-state index for each joint name.
+     * @return Read-only map from joint name to exported joint-state slot.
+     */
+    const std::unordered_map<std::string, std::size_t>& joint_state_indices_by_name() const;
+
+    /**
      * @brief Get qpos indices for exported joints.
      * @return Read-only list of MuJoCo qpos indices.
      */
@@ -157,13 +163,13 @@ class MujocoSimCore {
 
     /**
      * @brief Get effort/control indices for exported joints.
-     * @return Read-only list of actuator indices.
+     * @return Read-only list of actuator indices aligned with actuator order, not joint-state order.
      */
     const std::vector<std::size_t>& joint_effort_indices() const;
 
     /**
-     * @brief Get the joint-or-actuator name to control index mapping.
-     * @return Read-only name-to-actuator map.
+     * @brief Get the control-target name to actuator index mapping.
+     * @return Read-only name-to-actuator map for actuator names and direct joint-driven actuator aliases.
      */
     const std::unordered_map<std::string, std::size_t>& control_indices_by_name() const;
 
@@ -229,6 +235,7 @@ class MujocoSimCore {
     std::unique_ptr<mjModel, void (*)(mjModel*)> _mj_model;
     std::unique_ptr<mjData, void (*)(mjData*)> _mj_data;
     std::vector<std::string> _joint_names;
+    std::unordered_map<std::string, std::size_t> _joint_state_indices_by_name;
     std::vector<std::size_t> _joint_position_indices;
     std::vector<std::size_t> _joint_velocity_indices;
     std::vector<std::size_t> _joint_effort_indices;

@@ -4,8 +4,8 @@
 
     <default>
         <joint damping="0.05"/>
-        <!--<general gaintype="fixed" biastype="affine" gainprm="100.0" biasprm="0 -100.0 -10.0"/>-->
-      <general dyntype="none" gaintype="fixed" biastype="none" dynprm="1 0 0" gainprm="1 0 0" biasprm="0 0 0"/>
+        <general gaintype="fixed" biastype="affine" gainprm="100.0" biasprm="0 -100.0 -10.0"/>
+      <!--<general dyntype="none" gaintype="fixed" biastype="none" dynprm="1 0 0" gainprm="1 0 0" biasprm="0 0 0"/>-->
     </default>
 
     <worldbody>
@@ -31,8 +31,8 @@
     </worldbody>
 
     <actuator>
-        <!--<general name="pendulum_joint_actuator" joint="pendulum_joint" ctrlrange="-6.14159 6.14159" ctrllimited="true"/>-->
-        <general name="pendulum_joint_actuator" joint="pendulum_joint" ctrlrange="-20.0 20.0" ctrllimited="true"/>
+        <general name="pendulum_joint_actuator" joint="pendulum_joint" ctrlrange="-6.14159 6.14159" ctrllimited="true"/>
+        <!--<general name="pendulum_joint_actuator" joint="pendulum_joint" ctrlrange="-20.0 20.0" ctrllimited="true"/>-->
     </actuator>
 
     <sensor>
