@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<library path="mujoco_ros2_driver">
+  <class
+    name="mujoco_ros2_driver/MujocoRos2Driver"
+    type="mujoco_ros2_driver::MujocoRos2Driver"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>MuJoCo-backed ros2_control SystemInterface plugin.</description>
+  </class>
+</library>
