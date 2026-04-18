@@ -3,10 +3,9 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
+#include <opencv4/opencv2/opencv.hpp>
 #include <stdexcept>
 #include <utility>
-
-#include <opencv4/opencv2/opencv.hpp>
 
 MujocoViewer::~MujocoViewer() {
     if (_model) {
@@ -21,8 +20,8 @@ MujocoViewer::~MujocoViewer() {
     }
 }
 
-void MujocoViewer::initialize(mjModel &model, bool large_hud, std::atomic<bool> *paused,
-                              std::atomic<bool> *reset_requested) {
+void MujocoViewer::initialize(mjModel& model, bool large_hud, std::atomic<bool>* paused,
+                              std::atomic<bool>* reset_requested) {
     _model = &model;
     _paused = paused;
     _reset_requested = reset_requested;
@@ -79,7 +78,7 @@ void MujocoViewer::initialize_control_panel(ControlMode mode, ControlCommandCall
     rebuild_control_panel();
 }
 
-void MujocoViewer::set_camera_properties(const std::array<double, 3> &focal_point, double distance, double azimuth,
+void MujocoViewer::set_camera_properties(const std::array<double, 3>& focal_point, double distance, double azimuth,
                                          double elevation, bool orthographic) {
     _camera.lookat[0] = focal_point[0];
     _camera.lookat[1] = focal_point[1];
@@ -113,7 +112,7 @@ std::size_t MujocoViewer::control_slider_count() const { return _control_actuato
 
 void MujocoViewer::invalidate_control_panel_values() { _control_values_initialized = false; }
 
-void MujocoViewer::update_scene(mjData &joint_state) {
+void MujocoViewer::update_scene(mjData& joint_state) {
     if (!_model || !_window) {
         return;
     }
@@ -149,13 +148,13 @@ void MujocoViewer::present() {
     glfwPollEvents();
 }
 
-void MujocoViewer::render(mjData &joint_state) {
+void MujocoViewer::render(mjData& joint_state) {
     update_scene(joint_state);
     present();
 }
 
-bool MujocoViewer::render_fixed_camera_image(mjData &joint_state, int fixed_camera_id, const std::string &frame_name,
-                                             RenderedImage &image) {
+bool MujocoViewer::render_fixed_camera_image(mjData& joint_state, int fixed_camera_id, const std::string& frame_name,
+                                             RenderedImage& image) {
     if (!_model || !_window || fixed_camera_id < 0 || fixed_camera_id >= _model->ncam) {
         return false;
     }
@@ -188,32 +187,32 @@ bool MujocoViewer::render_fixed_camera_image(mjData &joint_state, int fixed_came
     return true;
 }
 
-void MujocoViewer::scroll_callback(GLFWwindow *window, double /*xoffset*/, double yoffset) {
-    auto *viewer = static_cast<MujocoViewer *>(glfwGetWindowUserPointer(window));
+void MujocoViewer::scroll_callback(GLFWwindow* window, double /*xoffset*/, double yoffset) {
+    auto* viewer = static_cast<MujocoViewer*>(glfwGetWindowUserPointer(window));
     if (viewer) {
         viewer->scroll(yoffset);
     }
 }
 
-void MujocoViewer::keyboard_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+void MujocoViewer::keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     (void)scancode;
     (void)mods;
-    auto *viewer = static_cast<MujocoViewer *>(glfwGetWindowUserPointer(window));
+    auto* viewer = static_cast<MujocoViewer*>(glfwGetWindowUserPointer(window));
     if (viewer) {
         viewer->keyboard(key, action);
     }
 }
 
-void MujocoViewer::mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+void MujocoViewer::mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     (void)mods;
-    auto *viewer = static_cast<MujocoViewer *>(glfwGetWindowUserPointer(window));
+    auto* viewer = static_cast<MujocoViewer*>(glfwGetWindowUserPointer(window));
     if (viewer) {
         viewer->mouse_button(button, action);
     }
 }
 
-void MujocoViewer::mouse_move_callback(GLFWwindow *window, double xpos, double ypos) {
-    auto *viewer = static_cast<MujocoViewer *>(glfwGetWindowUserPointer(window));
+void MujocoViewer::mouse_move_callback(GLFWwindow* window, double xpos, double ypos) {
+    auto* viewer = static_cast<MujocoViewer*>(glfwGetWindowUserPointer(window));
     if (viewer) {
         viewer->mouse_move(xpos, ypos);
     }
@@ -381,7 +380,7 @@ bool MujocoViewer::is_cursor_in_control_panel(double xpos, double ypos) const {
     const double scale_y = static_cast<double>(framebuffer_height) / static_cast<double>(window_height);
     const int x = static_cast<int>(xpos * scale_x);
     const int y = static_cast<int>((window_height - ypos) * scale_y);
-    const mjrRect &panel_rect = _ui_state.rect[_control_ui.rectid];
+    const mjrRect& panel_rect = _ui_state.rect[_control_ui.rectid];
     return x >= panel_rect.left && x < panel_rect.left + panel_rect.width && y >= panel_rect.bottom &&
            y < panel_rect.bottom + panel_rect.height;
 }
@@ -431,7 +430,7 @@ bool MujocoViewer::handle_ui_event(mjtEvent type, double xpos, double ypos, int 
     _ui_state.sx = sx;
     _ui_state.sy = sy;
 
-    mjuiItem *changed_item = mjui_event(&_control_ui, &_ui_state, &_context);
+    mjuiItem* changed_item = mjui_event(&_control_ui, &_ui_state, &_context);
     if (changed_item) {
         handle_control_item_change(*changed_item);
     }
@@ -490,9 +489,9 @@ void MujocoViewer::rebuild_control_panel() {
 
     int slider_index = 0;
     for (int section_index = 0; section_index < _control_ui.nsect; ++section_index) {
-        auto &section = _control_ui.sect[section_index];
+        auto& section = _control_ui.sect[section_index];
         for (int item_index = 0; item_index < section.nitem; ++item_index) {
-            auto &item = section.item[item_index];
+            auto& item = section.item[item_index];
             if (item.type == mjITEM_SLIDERNUM && slider_index < static_cast<int>(_control_actuator_ids.size())) {
                 item.userid = _control_actuator_ids[static_cast<std::size_t>(slider_index)];
                 ++slider_index;
@@ -504,12 +503,12 @@ void MujocoViewer::rebuild_control_panel() {
     mjui_update(-1, -1, &_control_ui, &_ui_state, &_context);
 }
 
-void MujocoViewer::handle_control_item_change(const mjuiItem &item) {
+void MujocoViewer::handle_control_item_change(const mjuiItem& item) {
     if (!_control_callback || !_jog_enabled || item.type != mjITEM_SLIDERNUM) {
         return;
     }
 
-    const auto *value = static_cast<const mjtNum *>(item.pdata);
+    const auto* value = static_cast<const mjtNum*>(item.pdata);
     if (!value) {
         return;
     }
@@ -522,7 +521,7 @@ std::string MujocoViewer::control_item_label(int actuator_id) const {
         return "control";
     }
 
-    const char *actuator_name = _model->names + _model->name_actuatoradr[actuator_id];
+    const char* actuator_name = _model->names + _model->name_actuatoradr[actuator_id];
     if (_model->actuator_trntype[actuator_id] == mjTRN_JOINT ||
         _model->actuator_trntype[actuator_id] == mjTRN_JOINTINPARENT) {
         const int joint_id = _model->actuator_trnid[2 * actuator_id];

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cstring>
 
-void ViewerControls::initialize(mjModel &model, mjvOption &rendering_options) {
+void ViewerControls::initialize(mjModel& model, mjvOption& rendering_options) {
     _model = &model;
     _rendering_options = &rendering_options;
     for (int i = 0; i < mjNGROUP; ++i) {
@@ -26,7 +26,7 @@ void ViewerControls::initialize(mjModel &model, mjvOption &rendering_options) {
     initialize_ft_figure();
 }
 
-void ViewerControls::handle_key(int key, int action, bool &paused, bool &reset_requested) {
+void ViewerControls::handle_key(int key, int action, bool& paused, bool& reset_requested) {
     if (action != GLFW_PRESS) {
         return;
     }
@@ -96,7 +96,7 @@ void ViewerControls::handle_key(int key, int action, bool &paused, bool &reset_r
                 _ft_plot_sensor_index = (_ft_plot_sensor_index + 1) % _status.force_torque_sensors.size();
                 _ft_plot_name.clear();
                 _ft_plot_time_history.clear();
-                for (auto &history : _ft_history) {
+                for (auto& history : _ft_history) {
                     history.clear();
                 }
                 update_ft_figure();
@@ -126,7 +126,7 @@ void ViewerControls::set_hud_large(bool large) { _hud_large = large; }
 
 float ViewerControls::contact_force_scale() const { return _contact_force_scale; }
 
-const char *ViewerControls::label_mode_name() const {
+const char* ViewerControls::label_mode_name() const {
     if (!_rendering_options) {
         return "off";
     }
@@ -206,7 +206,7 @@ void ViewerControls::initialize_ft_figure() {
     _ft_figure.gridsize[1] = 4;
     std::strncpy(_ft_figure.xlabel, "samples", sizeof(_ft_figure.xlabel) - 1);
 
-    constexpr std::array<const char *, 6> kLineNames = {"Fx", "Fy", "Fz", "Tx", "Ty", "Tz"};
+    constexpr std::array<const char*, 6> kLineNames = {"Fx", "Fy", "Fz", "Tx", "Ty", "Tz"};
     constexpr std::array<std::array<float, 3>, 6> kLineColors = {{{1.0f, 0.3f, 0.3f},
                                                                   {0.3f, 1.0f, 0.3f},
                                                                   {0.3f, 0.5f, 1.0f},
@@ -223,11 +223,11 @@ void ViewerControls::initialize_ft_figure() {
     }
 }
 
-void ViewerControls::append_ft_plot_sample(const ViewerForceTorqueStatus &ft_sensor) {
+void ViewerControls::append_ft_plot_sample(const ViewerForceTorqueStatus& ft_sensor) {
     if (_ft_plot_name.empty() || _ft_plot_name != ft_sensor.name) {
         _ft_plot_name = ft_sensor.name;
         _ft_plot_time_history.clear();
-        for (auto &history : _ft_history) {
+        for (auto& history : _ft_history) {
             history.clear();
         }
     }
@@ -243,7 +243,7 @@ void ViewerControls::append_ft_plot_sample(const ViewerForceTorqueStatus &ft_sen
 
     if (_ft_plot_time_history.size() > kForceTorquePlotHistory) {
         _ft_plot_time_history.erase(_ft_plot_time_history.begin());
-        for (auto &history : _ft_history) {
+        for (auto& history : _ft_history) {
             history.erase(history.begin());
         }
     }
@@ -256,7 +256,7 @@ void ViewerControls::update_ft_figure() {
         _ft_plot_sensor_index = 0;
         _ft_plot_name.clear();
         _ft_plot_time_history.clear();
-        for (auto &history : _ft_history) {
+        for (auto& history : _ft_history) {
             history.clear();
         }
         std::strncpy(_ft_figure.title, "FT Plot: <none>", sizeof(_ft_figure.title) - 1);
@@ -298,7 +298,7 @@ void ViewerControls::update_ft_figure() {
     }
 }
 
-void ViewerControls::render_ft_plots(const mjrRect &viewport, const mjrContext &context) const {
+void ViewerControls::render_ft_plots(const mjrRect& viewport, const mjrContext& context) const {
     if (!_show_ft_plots || _ft_plot_time_history.empty()) {
         return;
     }
@@ -306,10 +306,10 @@ void ViewerControls::render_ft_plots(const mjrRect &viewport, const mjrContext &
     const int plot_width = std::max(320, viewport.width / 3);
     const int plot_height = std::max(220, viewport.height / 3);
     mjrRect plot_rect = {viewport.width - plot_width - 12, 12, plot_width, plot_height};
-    mjr_figure(plot_rect, const_cast<mjvFigure *>(&_ft_figure), &context);
+    mjr_figure(plot_rect, const_cast<mjvFigure*>(&_ft_figure), &context);
 }
 
-void ViewerControls::render_overlay(const mjrRect &viewport, const mjrContext &context) const {
+void ViewerControls::render_overlay(const mjrRect& viewport, const mjrContext& context) const {
     if (!_hud_enabled) {
         return;
     }
@@ -356,7 +356,7 @@ void ViewerControls::render_overlay(const mjrRect &viewport, const mjrContext &c
     if (_status.tracked_frames.empty()) {
         content += " <none>";
     } else {
-        for (const auto &tracked_frame : _status.tracked_frames) {
+        for (const auto& tracked_frame : _status.tracked_frames) {
             content += "\n- ";
             content += tracked_frame.name;
             content += ": ";
@@ -370,8 +370,8 @@ void ViewerControls::render_overlay(const mjrRect &viewport, const mjrContext &c
     render_ft_plots(viewport, context);
 
     if (_show_help_overlay) {
-        constexpr const char *help_title = "Viewer shortcuts";
-        constexpr const char *help_content =
+        constexpr const char* help_title = "Viewer shortcuts";
+        constexpr const char* help_content =
             "C: collision geoms\n"
             "J: joint frames\n"
             "M: centers of mass\n"
