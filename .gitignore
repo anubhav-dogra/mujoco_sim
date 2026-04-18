@@ -3,3 +3,13 @@
 !.pixi/config.toml
 /build
 /install
+/log
+
+.cache/
+
+# editor / OS noise
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store

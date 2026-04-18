@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>mujoco_viewer</name>
+  <version>0.1.0</version>
+  <description>MuJoCo viewer package with standalone viewer executable and UI controls.</description>
+  <maintainer email="anubhavdograa@gmail.com">Anubhav Dogra</maintainer>
+  <license>Apache 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>glfw3</depend>
+  <depend>opencv</depend>
+  <depend>yaml-cpp</depend>
+  <depend>mujoco_core</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

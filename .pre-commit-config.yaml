@@ -9,4 +9,4 @@ repos:
     rev: v15.0.7
     hooks:
       - id: clang-format
-        files: ^(mujoco_core|mujoco_viewer)/.*\.(cpp|h)$
+        files: ^(mujoco_core|mujoco_viewer|mujoco_ros2_driver)/.*\.(cpp|h|hpp)$
