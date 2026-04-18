@@ -1,0 +1,13 @@
+---
+BasedOnStyle: Google
+ColumnLimit: 120
+IndentWidth: 4
+SortIncludes: false
+BinPackArguments: true
+AllowAllArgumentsOnNextLine: false
+BinPackParameters: true
+AllowAllParametersOfDeclarationOnNextLine: false
+DerivePointerAlignment: true
+QualifierAlignment: Left
+ReferenceAlignment: Left
+AlignEscapedNewlinesLeft: true

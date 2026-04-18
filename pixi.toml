@@ -28,6 +28,16 @@ test = { cmd = [
   "ctest --test-dir build --output-on-failure"
 ] }
 
+lint = { cmd = [
+  "bash", "-lc",
+  "pre-commit run --all-files"
+] }
+
+lint-changed = { cmd = [
+  "bash", "-lc",
+  "pre-commit run"
+] }
+
 sim_viewer_pendulum = { cmd = [
   "bash", "-lc",
   "\"$PIXI_PROJECT_ROOT/install/bin/mujoco_sim_viewer\" --config \"$PIXI_PROJECT_ROOT/mujoco_core/config/standalone/pendulum.yaml\""
@@ -42,3 +52,5 @@ glfw = ">=3.4,<4"
 yaml-cpp = ">=0.8.0,<0.9"
 opencv = ">=4.13.0,<5"
 gtest = ">=1.17.0,<2"
+clang-format = ">=22.1.3,<23"
+pre-commit = ">=4.5.1,<5"

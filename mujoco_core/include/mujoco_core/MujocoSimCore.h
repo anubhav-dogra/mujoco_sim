@@ -1,12 +1,13 @@
 #pragma once
 
 #include <mujoco/mujoco.h>
+
+#include <array>
 #include <cstddef>
 #include <memory>
 #include <mutex>
-#include <unordered_map>
-#include <array>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 enum ControlMode { POSITION, VELOCITY, TORQUE, UNKNOWN };

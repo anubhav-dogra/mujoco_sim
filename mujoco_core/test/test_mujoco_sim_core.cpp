@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
-#include <filesystem>
 #include <mujoco_core/MujocoSimCore.h>
+
+#include <cmath>
+#include <filesystem>
 #include <string>
 #include <vector>
-#include <cmath>
 
 namespace {
 std::string repo_root() { return MUJOCO_ROS2_INTERFACE_SOURCE_DIR; }

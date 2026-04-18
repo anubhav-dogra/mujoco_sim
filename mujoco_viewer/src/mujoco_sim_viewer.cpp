@@ -1,8 +1,12 @@
+#include <mujoco_core/MujocoSimCore.h>
+#include <mujoco_viewer/MujocoViewer.h>
+#include <yaml-cpp/yaml.h>
+
+#include <atomic>
+#include <chrono>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
-#include <atomic>
-#include <chrono>
 #include <iostream>
 #include <memory>
 #include <mutex>
@@ -11,10 +15,6 @@
 #include <string_view>
 #include <thread>
 #include <vector>
-
-#include <mujoco_core/MujocoSimCore.h>
-#include <mujoco_viewer/MujocoViewer.h>
-#include <yaml-cpp/yaml.h>
 
 namespace {
 

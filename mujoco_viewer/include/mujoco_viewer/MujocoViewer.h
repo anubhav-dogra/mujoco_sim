@@ -1,17 +1,16 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
+#include <mujoco/mujoco.h>
+#include <mujoco_core/MujocoSimCore.h>
+#include <mujoco_viewer/ViewerControls.h>
+
 #include <array>
 #include <atomic>
 #include <cstdint>
 #include <functional>
 #include <string>
 #include <vector>
-
-#include <GLFW/glfw3.h>
-#include <mujoco/mujoco.h>
-
-#include <mujoco_core/MujocoSimCore.h>
-#include <mujoco_viewer/ViewerControls.h>
 
 // Owns the MuJoCo viewer window, render state, and camera image rendering.
 // ViewerControls remains separate and manages HUD state and viewer toggles.
@@ -29,12 +28,12 @@ class MujocoViewer {
     MujocoViewer() = default;
     ~MujocoViewer();
 
-    void initialize(mjModel &model, bool large_hud, std::atomic<bool> *paused, std::atomic<bool> *reset_requested);
+    void initialize(mjModel& model, bool large_hud, std::atomic<bool>* paused, std::atomic<bool>* reset_requested);
     bool is_initialized() const;
     bool should_close() const;
     void initialize_control_panel(ControlMode mode, ControlCommandCallback callback, bool visible = true);
 
-    void set_camera_properties(const std::array<double, 3> &focal_point, double distance, double azimuth,
+    void set_camera_properties(const std::array<double, 3>& focal_point, double distance, double azimuth,
                                double elevation, bool orthographic);
     void set_status(ViewerStatus status);
 
@@ -47,17 +46,17 @@ class MujocoViewer {
     std::size_t control_slider_count() const;
     void invalidate_control_panel_values();
 
-    void update_scene(mjData &joint_state);
+    void update_scene(mjData& joint_state);
     void present();
-    void render(mjData &joint_state);
-    bool render_fixed_camera_image(mjData &joint_state, int fixed_camera_id, const std::string &frame_name,
-                                   RenderedImage &image);
+    void render(mjData& joint_state);
+    bool render_fixed_camera_image(mjData& joint_state, int fixed_camera_id, const std::string& frame_name,
+                                   RenderedImage& image);
 
    private:
-    static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
-    static void keyboard_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
-    static void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
-    static void mouse_move_callback(GLFWwindow *window, double xpos, double ypos);
+    static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+    static void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    static void mouse_move_callback(GLFWwindow* window, double xpos, double ypos);
 
     void scroll(double yoffset);
     void keyboard(int key, int action);
@@ -68,12 +67,12 @@ class MujocoViewer {
     bool handle_ui_event(mjtEvent type, double xpos, double ypos, int button = mjBUTTON_NONE, int key = 0,
                          double sx = 0.0, double sy = 0.0);
     void rebuild_control_panel();
-    void handle_control_item_change(const mjuiItem &item);
+    void handle_control_item_change(const mjuiItem& item);
     std::string control_item_label(int actuator_id) const;
     double current_cursor_x() const;
     double current_cursor_y() const;
 
-    mjModel *_model = nullptr;
+    mjModel* _model = nullptr;
     mjvCamera _camera;
     mjvOption _rendering_options;
     mjvPerturb _perturbation;
@@ -81,9 +80,9 @@ class MujocoViewer {
     mjrContext _context;
     mjUI _control_ui{};
     mjuiState _ui_state{};
-    GLFWwindow *_window = nullptr;
-    std::atomic<bool> *_paused = nullptr;
-    std::atomic<bool> *_reset_requested = nullptr;
+    GLFWwindow* _window = nullptr;
+    std::atomic<bool>* _paused = nullptr;
+    std::atomic<bool>* _reset_requested = nullptr;
     bool _button_left = false;
     bool _button_middle = false;
     bool _button_right = false;

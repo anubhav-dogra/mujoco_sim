@@ -1,4 +1,5 @@
 #include <mujoco_core/MujocoSimCore.h>
+
 #include <stdexcept>
 
 MujocoSimCore::MujocoSimCore(const Config& config)

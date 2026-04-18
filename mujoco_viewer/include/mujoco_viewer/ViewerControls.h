@@ -1,12 +1,12 @@
 #pragma once
 
+#include <GLFW/glfw3.h>
+#include <mujoco/mujoco.h>
+
 #include <array>
 #include <cstddef>
 #include <string>
 #include <vector>
-
-#include <GLFW/glfw3.h>
-#include <mujoco/mujoco.h>
 
 struct ViewerTrackedFrameStatus {
     std::string name;
@@ -20,7 +20,7 @@ struct ViewerForceTorqueStatus {
 };
 
 struct ViewerStatus {
-    const char *control_mode = "UNKNOWN";
+    const char* control_mode = "UNKNOWN";
     bool paused = false;
     bool collision_visible = false;
     bool contacts_visible = false;
@@ -43,13 +43,13 @@ class ViewerControls {
 
     ViewerControls() = default;
 
-    void initialize(mjModel &model, mjvOption &rendering_options);
-    void handle_key(int key, int action, bool &paused, bool &reset_requested);
+    void initialize(mjModel& model, mjvOption& rendering_options);
+    void handle_key(int key, int action, bool& paused, bool& reset_requested);
     void set_status(ViewerStatus status);
     void set_hud_enabled(bool enabled);
     void set_hud_large(bool large);
     float contact_force_scale() const;
-    void render_overlay(const mjrRect &viewport, const mjrContext &context) const;
+    void render_overlay(const mjrRect& viewport, const mjrContext& context) const;
 
    private:
     static constexpr int kForceTorquePlotHistory = 200;
@@ -57,14 +57,14 @@ class ViewerControls {
     void apply_visual_scale();
     void scale_active_visuals(float factor);
     void cycle_model_alpha();
-    const char *label_mode_name() const;
+    const char* label_mode_name() const;
     void initialize_ft_figure();
-    void append_ft_plot_sample(const ViewerForceTorqueStatus &ft_sensor);
+    void append_ft_plot_sample(const ViewerForceTorqueStatus& ft_sensor);
     void update_ft_figure();
-    void render_ft_plots(const mjrRect &viewport, const mjrContext &context) const;
+    void render_ft_plots(const mjrRect& viewport, const mjrContext& context) const;
 
-    mjModel *_model = nullptr;
-    mjvOption *_rendering_options = nullptr;
+    mjModel* _model = nullptr;
+    mjvOption* _rendering_options = nullptr;
     bool _show_collision_geoms = false;
     bool _show_joint_frames = false;
     bool _show_contacts = false;
