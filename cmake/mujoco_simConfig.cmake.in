@@ -1,0 +1,47 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(glfw3 REQUIRED)
+find_dependency(OpenCV REQUIRED)
+find_dependency(yaml-cpp REQUIRED)
+
+if(DEFINED ENV{MUJOCO_PATH} AND NOT "$ENV{MUJOCO_PATH}" STREQUAL "")
+  set(_mujoco_sim_mujoco_path "$ENV{MUJOCO_PATH}")
+elseif(DEFINED ENV{CONDA_PREFIX} AND NOT "$ENV{CONDA_PREFIX}" STREQUAL "")
+  set(_mujoco_sim_mujoco_path "$ENV{CONDA_PREFIX}")
+else()
+  set(_mujoco_sim_mujoco_path "")
+endif()
+
+if(_mujoco_sim_mujoco_path STREQUAL "")
+  message(FATAL_ERROR
+    "mujoco_sim requires MUJOCO_PATH or CONDA_PREFIX to resolve the MuJoCo installation.")
+endif()
+
+find_path(_mujoco_sim_mujoco_include_dir
+  NAMES mujoco/mujoco.h
+  PATHS "${_mujoco_sim_mujoco_path}/include"
+  NO_DEFAULT_PATH
+)
+
+find_library(_mujoco_sim_mujoco_library
+  NAMES mujoco
+  PATHS "${_mujoco_sim_mujoco_path}/lib"
+  NO_DEFAULT_PATH
+)
+
+if(NOT _mujoco_sim_mujoco_include_dir OR NOT _mujoco_sim_mujoco_library)
+  message(FATAL_ERROR
+    "mujoco_sim could not locate MuJoCo under ${_mujoco_sim_mujoco_path}.")
+endif()
+
+if(NOT TARGET mujoco::mujoco)
+  add_library(mujoco::mujoco UNKNOWN IMPORTED)
+  set_target_properties(mujoco::mujoco PROPERTIES
+    IMPORTED_LOCATION "${_mujoco_sim_mujoco_library}"
+    INTERFACE_INCLUDE_DIRECTORIES "${_mujoco_sim_mujoco_include_dir}"
+  )
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/mujoco_simTargets.cmake")

@@ -1,0 +1,44 @@
+[workspace]
+authors = ["anubhav-dogra <anubhavdograa@gmail.com>"]
+channels = ["conda-forge"]
+name = "mujoco_sim"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[activation.env]
+PKG_CONFIG_PATH = "$CONDA_PREFIX/lib/$(uname -i)-linux-gnu/pkgconfig:$CONDA_PREFIX/lib/pkgconfig"
+MUJOCO_PATH = "$CONDA_PREFIX"
+
+[tasks]
+build = { cmd = [
+  "bash", "-lc",
+  "cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PIXI_PROJECT_ROOT/install && cmake --build build && cmake --install build"
+] }
+
+clean = { cmd = [
+  "rm", "-rf",
+  "$PIXI_PROJECT_ROOT/build",
+  "$PIXI_PROJECT_ROOT/install",
+] }
+
+rebuild = { depends-on = ["clean", "build"] }
+
+test = { cmd = [
+  "bash", "-lc",
+  "ctest --test-dir build --output-on-failure"
+] }
+
+sim_viewer_pendulum = { cmd = [
+  "bash", "-lc",
+  "\"$PIXI_PROJECT_ROOT/install/bin/mujoco_sim_viewer\" --config \"$PIXI_PROJECT_ROOT/mujoco_core/config/standalone/pendulum.yaml\""
+] }
+
+[dependencies]
+mujoco = ">=3.6.0,<4"
+cmake = ">=4.3.1,<5"
+ninja = ">=1.13.2,<2"
+pkg-config = ">=0.29.2,<0.30"
+glfw = ">=3.4,<4"
+yaml-cpp = ">=0.8.0,<0.9"
+opencv = ">=4.13.0,<5"
+gtest = ">=1.17.0,<2"
