@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <cmath>
 #include <cctype>
+#include <cstdlib>
+#include <cstring>
 #include <hardware_interface/hardware_info.hpp>
 #include <hardware_interface/types/hardware_interface_return_values.hpp>
 #include <hardware_interface/types/hardware_interface_type_values.hpp>
@@ -49,6 +51,20 @@ const char* control_mode_to_string(const ControlMode mode) {
         default:
             return "unknown";
     }
+}
+
+std::string resolve_plugin_directory_from_env() {
+    const char* conda_prefix = std::getenv("CONDA_PREFIX");
+    const char* mujoco_path = std::getenv("MUJOCO_PATH");
+
+    if (conda_prefix && std::strlen(conda_prefix) > 0) {
+        return std::string(conda_prefix) + "/bin/mujoco_plugin";
+    }
+    if (mujoco_path && std::strlen(mujoco_path) > 0) {
+        return std::string(mujoco_path) + "/bin/mujoco_plugin";
+    }
+
+    return "";
 }
 
 }  // namespace
@@ -143,6 +159,12 @@ CallbackReturn MujocoRos2Driver::on_configure(const rclcpp_lifecycle::State& /*p
     config.xml_location = xml_location;
     config.simulation_frequency = control_frequency;
     config.visualization_enabled = visualization_enabled;
+    const auto plugin_dir_it = info_.hardware_parameters.find("plugin_directory");
+    if (plugin_dir_it != info_.hardware_parameters.end() && !plugin_dir_it->second.empty()) {
+        config.plugin_directory = plugin_dir_it->second;
+    } else {
+        config.plugin_directory = resolve_plugin_directory_from_env();
+    }
     for (const auto& sensor : info_.sensors) {
         const auto force_it = sensor.parameters.find("force_sensor_name");
         const auto torque_it = sensor.parameters.find("torque_sensor_name");
@@ -168,9 +190,11 @@ CallbackReturn MujocoRos2Driver::on_configure(const rclcpp_lifecycle::State& /*p
         return CallbackReturn::ERROR;
     }
 
-    RCLCPP_INFO(logger, "Configuring MuJoCo driver: xml='%s', mode='%s', sim_frequency=%d Hz, visualization=%s",
-                config.xml_location.c_str(), control_mode_to_string(config.control_mode), config.simulation_frequency,
-                config.visualization_enabled ? "true" : "false");
+    RCLCPP_INFO(
+        logger,
+        "Configuring MuJoCo driver: xml='%s', plugin_dir='%s', mode='%s', sim_frequency=%d Hz, visualization=%s",
+        config.xml_location.c_str(), config.plugin_directory.c_str(), control_mode_to_string(config.control_mode),
+        config.simulation_frequency, config.visualization_enabled ? "true" : "false");
 
     sim_core_ = std::make_unique<MujocoSimCore>(config);
     const int sim_frequency = std::max(1, config.simulation_frequency);
