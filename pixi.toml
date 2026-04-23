@@ -44,6 +44,11 @@ sim_viewer_pendulum = { cmd = [
   "\"$PIXI_PROJECT_ROOT/install/mujoco_viewer/lib/mujoco_viewer/mujoco_sim_viewer\" --config \"$PIXI_PROJECT_ROOT/mujoco_core/config/standalone/pendulum.yaml\""
 ] }
 
+sim_viewer_double_pendulum = { cmd = [
+  "bash", "-lc",
+  "\"$PIXI_PROJECT_ROOT/install/mujoco_viewer/lib/mujoco_viewer/mujoco_sim_viewer\" --config \"$PIXI_PROJECT_ROOT/mujoco_core/config/standalone/double_pendulum.yaml\""
+] }
+
 [dependencies]
 mujoco = ">=3.6.0,<4"
 cmake = ">=4.2.3,<5"

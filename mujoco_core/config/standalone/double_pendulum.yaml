@@ -1,0 +1,10 @@
+xml_location: ../../../mujoco_models/models/double_pendulum/double_pendulum.xml
+control_mode: torque
+simulation_frequency: 1000
+enable_gravity_compensation: false
+visualization_enabled: true
+joint_damping_gain: 0.0
+ft_sensors:
+  - frame_id: double_pendulum_ft_link
+    force_sensor_name: double_pendulum_tip_force
+    torque_sensor_name: double_pendulum_tip_torque
