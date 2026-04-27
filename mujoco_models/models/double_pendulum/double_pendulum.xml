@@ -1,0 +1,55 @@
+<mujoco model="double_pendulum">
+    <compiler angle="radian" autolimits="true"/>
+    <option timestep="0.001" gravity="0 0 -9.81" integrator="implicitfast"/>
+
+    <default>
+        <joint damping="0.05"/>
+        <general dyntype="none" gaintype="fixed" biastype="none" dynprm="1 0 0" gainprm="1 0 0" biasprm="0 0 0"/>
+    </default>
+
+    <worldbody>
+        <body name="base_link" pos="0 0 0">
+            <geom type="box" size="0.05 0.05 0.05" rgba="0.6 0.6 0.6 1"/>
+
+            <body name="link_1" pos="0 0 0">
+                <joint name="joint_1" type="hinge" axis="0 1 0" range="-12.5664 12.5664"/>
+                <geom type="capsule" fromto="0 0 0 0 0 -0.7" size="0.03" rgba="0.2 0.4 0.8 1"/>
+
+                <body name="joint_2_link" pos="0 0 -0.7">
+                    <inertial pos="0 0 0" mass="0.02" diaginertia="1e-4 1e-4 1e-4"/>
+                    <site name="joint_2_site" pos="0 0 0" size="0.02" rgba="0.9 0.6 0.1 1"/>
+
+                    <body name="link_2" pos="0 0 0">
+                        <joint name="joint_2" type="hinge" axis="0 1 0" range="-12.5664 12.5664"/>
+                        <geom type="capsule" fromto="0 0 0 0 0 -0.7" size="0.025" rgba="0.2 0.7 0.4 1"/>
+
+                        <body name="double_pendulum_ft_link" pos="0 0 -0.7">
+                            <inertial pos="0 0 0" mass="0.001" diaginertia="1e-6 1e-6 1e-6"/>
+                            <site name="double_pendulum_ft_site" pos="0 0 0" size="0.02" rgba="1 0 0 1"/>
+
+                            <body name="double_pendulum_tip_link" pos="0 0 -0.08">
+                                <inertial pos="0 0 0" mass="0.15" diaginertia="0.001 0.001 0.001"/>
+                                <geom type="sphere" size="0.05" rgba="0.9 0.3 0.3 1"/>
+                                <site name="double_pendulum_tip" pos="0 0 0" size="0.02" rgba="1 0.8 0 1"/>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <general name="joint_1_actuator" joint="joint_1" ctrlrange="-40.0 40.0" ctrllimited="true"/>
+        <general name="joint_2_actuator" joint="joint_2" ctrlrange="-40.0 40.0" ctrllimited="true"/>
+    </actuator>
+
+    <sensor>
+        <force name="double_pendulum_tip_force" site="double_pendulum_ft_site"/>
+        <torque name="double_pendulum_tip_torque" site="double_pendulum_ft_site"/>
+    </sensor>
+
+    <keyframe>
+        <key name="home" qpos="0.12 -0.08" ctrl="0 0"/>
+    </keyframe>
+</mujoco>

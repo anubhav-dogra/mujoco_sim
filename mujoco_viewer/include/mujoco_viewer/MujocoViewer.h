@@ -73,11 +73,11 @@ class MujocoViewer {
     double current_cursor_y() const;
 
     mjModel* _model = nullptr;
-    mjvCamera _camera;
-    mjvOption _rendering_options;
-    mjvPerturb _perturbation;
-    mjvScene _scene;
-    mjrContext _context;
+    mjvCamera _camera{};
+    mjvOption _rendering_options{};
+    mjvPerturb _perturbation{};
+    mjvScene _scene{};
+    mjrContext _context{};
     mjUI _control_ui{};
     mjuiState _ui_state{};
     GLFWwindow* _window = nullptr;
