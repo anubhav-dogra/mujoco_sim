@@ -1,0 +1,8 @@
+xml_location: ../../../mujoco_models/models/double_pendulum/acrobot.xml
+control_mode: torque
+simulation_frequency: 1000
+enable_gravity_compensation: false
+visualization_enabled: true
+joint_damping_gain: 0.0
+tracked_frame_names:
+  - tcp_site

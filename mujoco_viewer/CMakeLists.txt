@@ -10,6 +10,7 @@ find_package(glfw3 REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(mujoco_core REQUIRED)
+find_package(Threads REQUIRED)
 
 if(DEFINED ENV{MUJOCO_PATH} AND NOT "$ENV{MUJOCO_PATH}" STREQUAL "")
   set(MUJOCO_PATH "$ENV{MUJOCO_PATH}")
@@ -40,6 +41,7 @@ target_link_libraries(mujoco_viewer
   mujoco_core::mujoco_core
   mujoco
   glfw
+  Threads::Threads
 )
 
 ament_target_dependencies(mujoco_viewer
@@ -64,6 +66,7 @@ target_link_libraries(mujoco_sim_viewer
   mujoco
   glfw
   yaml-cpp
+  Threads::Threads
 )
 
 ament_target_dependencies(mujoco_sim_viewer
