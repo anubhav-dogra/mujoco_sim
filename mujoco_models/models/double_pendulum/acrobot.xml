@@ -1,6 +1,9 @@
 <mujoco model="acrobot">
     <compiler angle="radian" autolimits="true"/>
     <option timestep="0.001" gravity="0 0 -9.81" integrator="implicitfast"/>
+    <option>
+        <flag energy="enable"/>
+    </option>
 
     <default>
         <joint damping="0.05"/>
@@ -12,16 +15,16 @@
             <!--<geom type="box" size="0.05 0.05 0.05" rgba="0.6 0.6 0.6 1"/>-->
 
             <body name="link_1" pos="0 0 0">
-                <joint name="joint_1" type="hinge" axis="0 1 0" range="-12.5664 12.5664"/>
+                <joint name="joint_1" type="hinge" axis="0 1 0" range="-6.28 6.28"/>
                 <geom type="capsule" fromto="0 0 0 0 0 -0.7" size="0.03" rgba="0.2 0.4 0.8 1"/>
 
                 <body name="joint_2_link" pos="0 0 -0.7">
                     <inertial pos="0 0 0" mass="0.02" diaginertia="1e-4 1e-4 1e-4"/>
-                    <site name="joint_2_site" pos="0 0 0" size="0.02" rgba="0.9 0.6 0.1 1"/>
 
                     <body name="link_2" pos="0 0 0">
-                        <joint name="joint_2" type="hinge" axis="0 1 0" range="-12.5664 12.5664"/>
+                        <joint name="joint_2" type="hinge" axis="0 1 0" range="-12.56 12.56"/>
                         <geom type="capsule" fromto="0 0 0 0 0 -0.7" size="0.025" rgba="0.2 0.7 0.4 1"/>
+                    <site name="tcp_site" pos="0 0 -0.7" size="0.02" rgba="0.9 0.6 0.1 1"/>
                     </body>
                 </body>
             </body>
